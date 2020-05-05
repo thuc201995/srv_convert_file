@@ -7,5 +7,4 @@
 - api: localhost:8081/word-to-pdf
 - method: POST
 - form-data:
-- key: file
-- value: file\*.doc (docx)
+- key: file , value: file\*.doc (docx)
