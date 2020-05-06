@@ -63,6 +63,7 @@ func converter(path string, fileName string) (rs string, err error) {
 	if err := cmd.Wait(); err != nil {
 		return "", err
 	}
+
 	return "/static/" + fileName + ".pdf", nil
 }
 
