@@ -10,8 +10,7 @@ import (
 // meant to be used as a helper struct, to collect all of the endpoints into a
 // single parameter.
 type Endpoints struct {
-	WordToPDFEndpoint    endpoint.Endpoint
-	DownloadFileEndpoint endpoint.Endpoint
+	WordToPDFEndpoint endpoint.Endpoint
 }
 
 // New returns a Endpoints struct that wraps the provided service, and wires in all of the

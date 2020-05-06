@@ -39,19 +39,21 @@ func makeWordToPDFHandler(m *mux.Router, endpoints endpoint.Endpoints, options [
 func decodeWordToPDFRequest(_ context.Context, r *http.Request) (interface{}, error) {
 	req := endpoint.WordToPDFRequest{}
 	file, handler, err := r.FormFile("file")
-	r.ParseMultipartForm(500 << 20)
+	var maxFileSize int64 = 5 * MB
+	r.ParseMultipartForm(maxFileSize)
+
 	if err != nil {
-		return nil, errEmptyFile
+		return req, errEmptyFile
 	}
 
-	if handler.Size > 500*MB {
-		return nil, errMaxFileSize
+	if handler.Size > maxFileSize {
+		return req, errMaxFileSize
 	}
 	var mimeType = handler.Header.Get("Content-Type")
 	_, found := Find(acceptedFileType, mimeType)
 
 	if found == false {
-		return nil, errFileNotSupported
+		return req, errFileNotSupported
 	}
 	req = endpoint.WordToPDFRequest{
 		File:     file,
@@ -59,7 +61,7 @@ func decodeWordToPDFRequest(_ context.Context, r *http.Request) (interface{}, er
 		MimeType: mimeType,
 	}
 
-	return req, nil
+	return req, err
 }
 
 // encodeWordToPDFResponse is a transport/http.EncodeResponseFunc that encodes
@@ -71,7 +73,7 @@ func encodeWordToPDFResponse(ctx context.Context, w http.ResponseWriter, respons
 	}
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	err = json.NewEncoder(w).Encode(response)
-	return
+	return nil
 }
 func ErrorEncoder(_ context.Context, err error, w http.ResponseWriter) {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")

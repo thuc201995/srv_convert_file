@@ -1,7 +1,8 @@
 version: "3"
 services:
   convert:
-    build: .
-    container_name: "convert"
+    image: thuc201995/convert
     ports:
       - "8081:8081"
+    volumes:
+      - ./:/go/src/github.com/thuc201995/srv_convert_file

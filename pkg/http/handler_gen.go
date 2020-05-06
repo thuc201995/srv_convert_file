@@ -13,6 +13,10 @@ import (
 // predefined paths.
 func NewHTTPHandler(endpoints endpoint.Endpoints, options map[string][]http.ServerOption) http1.Handler {
 	m := mux.NewRouter()
+	options["WordToPDF"] = []http.ServerOption{
+		http.ServerErrorEncoder(ErrorEncoder),
+	}
+
 	makeWordToPDFHandler(m, endpoints, options["WordToPDF"])
 	return m
 }

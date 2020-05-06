@@ -25,7 +25,6 @@ type WordToPDFResponse struct {
 func MakeWordToPDFEndpoint(s service.SrvConvertFileService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(WordToPDFRequest)
-
 		rs, err := s.WordToPDF(ctx, req.File, req.Name, req.MimeType)
 		return WordToPDFResponse{
 			Err:  err,
