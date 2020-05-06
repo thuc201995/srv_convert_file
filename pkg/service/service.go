@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	outdir = "./public/pdf/"
+	outdir = "./public/pdf"
 )
 
 // SrvConvertFileService describes the service.
@@ -45,9 +45,7 @@ func (b *basicSrvConvertFileService) WordToPDF(ctx context.Context, file io.Read
 }
 
 func converter(path string, fileName string) (rs string, err error) {
-	cmd := exec.Command("abiword", "--to=pdf", path, "-o", outdir+fileName+".pdf")
-	fmt.Println(cmd)
-	fmt.Println(outdir + fileName + ".pdf")
+	cmd := exec.Command("soffice", "--headless", "--convert-to", "pdf", "./"+path, "--outdir", outdir)
 	stderr, err := cmd.StderrPipe()
 	log.SetOutput(os.Stderr)
 
